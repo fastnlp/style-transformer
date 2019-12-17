@@ -12,7 +12,7 @@ torchtext >= 0.4.0
 
 nltk
 
-fasttext
+fasttext == 0.8.3
 
 kenlm
 
