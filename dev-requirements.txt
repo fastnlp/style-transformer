@@ -1,0 +1,14 @@
+# Linter
+flake8
+mypy
+# Formatter
+black
+isort
+# Code coverage with pytest
+pytest-cov
+coverage
+codecov
+# Mock HTTP requests/responses
+responses
+# For benchmark
+pytest-benchmark

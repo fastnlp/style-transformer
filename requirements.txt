@@ -1,0 +1,5 @@
+Cython
+torchtext>=0.4.0
+nltk
+fasttext==0.8.3
+https://github.com/kpu/kenlm/archive/master.zip
