@@ -75,3 +75,43 @@ Because the file "ppl_yelp.binary" is too big to upload, we exclude it from the 
 ## Outputs
 
 Update: You can find the outputs of our model in the "outputs" folder.
+
+# build ppl_yelp.binary
+
+[Reference: KenLM Training](https://github.com/kmario23/KenLM-training)
+
+## Install KenLM dependencies
+
+For Ubuntu:
+```bash
+$ sudo apt-get install build-essential libboost-all-dev cmake zlib1g-dev libbz2-dev liblzma-dev
+```
+
+For Mac:
+```bash
+brew install gcc boost
+```
+
+## Install KenLM toolkit
+
+```bash
+$ pip install nltk
+$ git clone --recursive https://github.com/kpu/kenlm.git
+$ cd kenlm
+$ mkdir -p build && cd build
+$ cmake ..
+$ make -j 4
+$ python setup.py install
+```
+
+## Training a language model
+
+Download punkt from http://www.nltk.org/nltk_data/, the link is https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/tokenizers/punkt.zip
+```bash
+$ wget https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/tokenizers/punkt.zip
+$ unzip punkt.zip -d /usr/local/share/nltk_data/tokenizers
+$ export NLTK_DATA=/usr/local/share/nltk_data/tokenizers
+$ cat data/yelp/dev.* data/yelp/train.* data/yelp/test.* | python kenlm_vocab_preprocess.py | ./kenlm/build/bin/lmplz -o 3 > ppl_yelp.arpa
+$ ./kenlm/build/bin/build_binary ppl_yelp.arpa ppl_yelp.binary
+```
+-o select n-gram, -o 3 is 3-gram lm, it will be better to use 5-gram.

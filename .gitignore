@@ -128,4 +128,12 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# .vscode
+# vscode
+.vscode
+
+.benchmarks
+
+save
+
+*ppl_yelp.arpa
+*ppl_yelp.binary
