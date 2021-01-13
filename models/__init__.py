@@ -1,7 +1,8 @@
-from .transformer import StyleTransformer, Discriminator
+from .transformer import StyleTransformer, Discriminator, DomainDiscriminator
 
 
 __all__ = [
     'StyleTransformer',
-    'Discriminator'
+    'Discriminator',
+    'DomainDiscriminator'
 ]
