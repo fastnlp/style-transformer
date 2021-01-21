@@ -186,7 +186,7 @@ class Discriminator(nn.Module):
 # TODO: Domain Discriminator
 class DomainDiscriminator(nn.Module):
     def __init__(self, config, vocab):
-        super(Discriminator, self).__init__()
+        super(DomainDiscriminator, self).__init__()
         num_domains, num_layers = config.num_domains, config.num_layers
         d_model, max_length = config.d_model, config.max_length
         h, dropout = config.h, config.dropout

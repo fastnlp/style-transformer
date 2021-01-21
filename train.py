@@ -325,7 +325,7 @@ def f_step(
     loss = cyc_rec_loss + adv_loss
 
     # TODO: domain consistency loss
-    if domains and model_domain_D:
+    if model_domain_D:
         domain_cns_log_probs = model_domain_D(
             gen_soft_tokens, gen_lengths, domains
         )
@@ -383,7 +383,7 @@ def train(
     his_f_slf_loss = []
     his_f_cyc_loss = []
     his_f_adv_loss = []
-    his_domain_cns_loss: List[float] = []
+    his_d_domain_cns_loss: List[float] = []
     his_f_domain_cns_loss: List[float] = []
 
     # writer = SummaryWriter(config.log_dir)
@@ -404,6 +404,10 @@ def train(
 
     print("Model F pretraining......")
     for i, batch in enumerate(train_iters):
+        if model_domain_D:
+            batch, domain = batch
+        else:
+            domain = None
         if i >= config.F_pretrain_iter:
             break
         slf_loss, cyc_loss, _, _ = f_step(
@@ -416,6 +420,8 @@ def train(
             temperature=1.0,
             drop_decay=1.0,
             cyc_rec_enable=False,
+            model_domain_D=model_domain_D,
+            domain=domain,
         )
         his_f_slf_loss.append(slf_loss)
         his_f_cyc_loss.append(cyc_loss)
@@ -478,6 +484,7 @@ def train(
                     temperature,
                     domain,
                 )
+                his_d_domain_cns_loss.append(d_domain_cns_loss)
 
         # update style transformer
         for _ in range(config.iter_F):
@@ -502,7 +509,7 @@ def train(
             his_f_slf_loss.append(f_slf_loss)
             his_f_cyc_loss.append(f_cyc_loss)
             his_f_adv_loss.append(f_adv_loss)
-            his_domain_cns_loss.append(f_domain_cns_loss)
+            his_f_domain_cns_loss.append(f_domain_cns_loss)
 
         global_step += 1
         # writer.add_scalar('rec_loss', rec_loss.item(), global_step)
@@ -510,12 +517,13 @@ def train(
 
         if global_step % config.log_steps == 0:
             avrg_d_adv_loss = np.mean(his_d_adv_loss)
+            avrg_d_domain_cns_loss = np.mean(his_d_domain_cns_loss)
             avrg_f_slf_loss = np.mean(his_f_slf_loss)
             avrg_f_cyc_loss = np.mean(his_f_cyc_loss)
             avrg_f_adv_loss = np.mean(his_f_adv_loss)
             avrg_f_domain_cns_loss = np.mean(his_f_domain_cns_loss)
             log_str = (
-                "[iter {}] d_adv_loss: {:.4f}  "
+                "[iter {}] d_adv_loss: {:.4f}  d_domain_cns_loss: {:.4f} "
                 + "f_slf_loss: {:.4f}  f_cyc_loss: {:.4f}  f_adv_loss: {:.4f}  "
                 + "f_domain_cns_loss: {:.4f}  temp: {:.4f}  drop: {:.4f}"
             )
@@ -523,6 +531,7 @@ def train(
                 log_str.format(
                     global_step,
                     avrg_d_adv_loss,
+                    avrg_d_domain_cns_loss,
                     avrg_f_slf_loss,
                     avrg_f_cyc_loss,
                     avrg_f_adv_loss,
@@ -534,6 +543,7 @@ def train(
 
         if global_step % config.eval_steps == 0:
             his_d_adv_loss = []
+            his_d_domain_cns_loss = []
             his_f_slf_loss = []
             his_f_cyc_loss = []
             his_f_adv_loss = []

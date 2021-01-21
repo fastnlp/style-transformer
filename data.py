@@ -40,7 +40,7 @@ class MultiDomainDatasetIterator(object):
     def __iter__(self):
         domain_iters = [iter(x) for x in self._domain_iters]
         while self.iter_cnt > 0:
-            iter_idx = randint(0, self.iter_cnt)
+            iter_idx = randint(0, self.iter_cnt-1)
             batch, domain = next(domain_iters[iter_idx])
             yield batch, domain
         #     yield_flg = False
@@ -240,7 +240,7 @@ def load_multi_domain_dataset(
     dev_iters = MultiDomainDatasetIterator((imdb_dev_iters, yelp_dev_iters))
     test_iters = MultiDomainDatasetIterator((imdb_test_iters, yelp_test_iters))
 
-    return train_iters, dev_iters, test_iters, vocab
+    return train_iters, dev_iters, yelp_test_iters, vocab
 
 
 if __name__ == "__main__":
