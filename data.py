@@ -31,6 +31,14 @@ class DomainDatasetIterator(object):
         for batch in iter(self._domain_iter):
             yield batch, self._domain
 
+    @property
+    def pos_iter(self):
+        return self._domain_iter.pos_iter
+
+    @property
+    def neg_iter(self):
+        return self._domain_iter.neg_iter
+
 
 class MultiDomainDatasetIterator(object):
     def __init__(self, domain_iters: List[DomainDatasetIterator]):
@@ -40,7 +48,7 @@ class MultiDomainDatasetIterator(object):
     def __iter__(self):
         domain_iters = [iter(x) for x in self._domain_iters]
         while self.iter_cnt > 0:
-            iter_idx = randint(0, self.iter_cnt-1)
+            iter_idx = randint(0, self.iter_cnt - 1)
             batch, domain = next(domain_iters[iter_idx])
             yield batch, domain
         #     yield_flg = False
