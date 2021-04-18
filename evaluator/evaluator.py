@@ -1,3 +1,4 @@
+import nltk
 from nltk.tokenize import word_tokenize
 from nltk.translate.bleu_score import sentence_bleu
 
@@ -11,6 +12,8 @@ class Evaluator(object):
 
     def __init__(self):
         resource_package = __name__
+
+        nltk.download('punkt')
 
         yelp_acc_path = 'acc_yelp.bin'
         # yelp_ppl_path = 'ppl_yelp.binary'
