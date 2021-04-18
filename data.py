@@ -1,7 +1,7 @@
 import time
 import numpy as np
 import torchtext
-from torchtext import data
+from torchtext.legacy import data
 
 from utils import tensor2text
 
