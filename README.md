@@ -12,7 +12,7 @@ torchtext >= 0.4.0
 
 nltk
 
-fasttext == 0.8.3
+fasttext == 0.8.3 [Using Future Versions Can Cause Errors such as ```ValueError: /home/aflah20082/HW5-TextStyleTransfer/evaluator/acc_yelp.bin has wrong file format!```](https://github.com/fastnlp/style-transformer/issues/2)
 
 kenlm
 
