@@ -16,7 +16,7 @@ fasttext == 0.8.3
 
 kenlm
 
-
+Since TorchText 0.9.0 some functions have become legacy and their imports need to be modified slightly else they would raise attribute not found error. Incase of such errors check out [this answer](https://stackoverflow.com/a/68278366/13858953) 
 
 ## Usage
 
