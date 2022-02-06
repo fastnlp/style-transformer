@@ -70,6 +70,7 @@ To evaluation the model, we used Fasttext,  NLTK and KenLM toolkit to evaluate t
 
 Because the file "ppl_yelp.binary" is too big to upload, we exclude it from the "evaluator" folder. As a result, you can not evaluate the ppl score via evaluator. To solve this problem, you can use the KenLM toolkit to train a language model by yourself or use other script to evaluate it.
 
+If you wish to get the "ppl_yelp.binary" file you might want to check out this [issue](https://github.com/fastnlp/style-transformer/issues/11) which points to this [fork](https://github.com/MarvinChung/HW5-TextStyleTransfer) which has instructions for getting it
 
 
 ## Outputs
