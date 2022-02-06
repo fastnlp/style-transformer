@@ -14,7 +14,7 @@ nltk
 
 fasttext == 0.8.3 [Using Future Versions Can Cause Errors such as ```ValueError: /PATH/evaluator/acc_yelp.bin has wrong file format!```](https://github.com/fastnlp/style-transformer/issues/2)
 
-kenlm
+kenlm This step might cause errors so might want to check this [fork](https://github.com/MarvinChung/HW5-TextStyleTransfer) which uses ```pypi-kenlm```
 
 Since TorchText 0.9.0 some functions have become legacy and their imports need to be modified slightly else they would raise attribute not found error. Incase of such errors check out [this answer](https://stackoverflow.com/a/68278366/13858953) 
 
